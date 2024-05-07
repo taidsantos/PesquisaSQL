@@ -1,0 +1,39 @@
+import requests
+import pandas as pd
+import time
+import subprocess
+import json
+from pyhive import presto,trino
+
+#Lê o arquivo com código de rastreio
+Lista = pd.read_excel(r'C:\Downloads\rastreio.xlsx')
+
+df = pd.DataFrame(Lista)
+
+#CONEXÃO COM O BANCO DE DADOS TRINO
+password = '1234'
+
+conn_trino = trino.connect(host = 'localhost'
+                            , port = 8080
+                            , protocol = 'https'
+                            , username = 'tai'
+                            , password = password)
+#Condição WHILE
+qtd_num = len(df)-1
+num = 0
+df_dados = pd.DataFrame()
+
+while num <= qtd_num:
+    rastreio = df['num'][num]
+    query = f"""
+        select *
+        from encomendas
+        where cod_rastrio = '{rastreio}'
+            """
+    df_result = pd.read_sql_query(query, conn_trino)
+    df_dados = df_client.append(df_result)
+    num = num+1
+    print(str(rastreio) + "- Pesquisa Concluída")
+
+#EXPORTAR O RESULTADO PARA UM ARQUIVO EXCEL
+df_resultado.to_excel(r'C:\Downloads\Resultado.xlsx')
