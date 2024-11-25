@@ -11,12 +11,12 @@ Lista = pd.read_excel(r'C:\Downloads\rastreio.xlsx')
 df = pd.DataFrame(Lista)
 
 #CONEXÃO COM O BANCO DE DADOS TRINO
-password = '1234'
+password = 'sua senha'
 
 conn_trino = trino.connect(host = 'localhost'
                             , port = 8080
                             , protocol = 'https'
-                            , username = 'tai'
+                            , username = 'seu user'
                             , password = password)
 #Condição WHILE
 qtd_num = len(df)-1
@@ -28,7 +28,7 @@ while num <= qtd_num:
     query = f"""
         select *
         from encomendas
-        where cod_rastrio = '{rastreio}'
+        where cod_rastreio = '{rastreio}'
             """
     df_result = pd.read_sql_query(query, conn_trino)
     df_dados = df_client.append(df_result)
