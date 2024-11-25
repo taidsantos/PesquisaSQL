@@ -1,8 +1,5 @@
 import requests
 import pandas as pd
-import time
-import subprocess
-import json
 from pyhive import presto,trino
 
 #Lê o arquivo com código de rastreio
